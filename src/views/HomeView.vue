@@ -1,16 +1,16 @@
 <script>
 import Modal from "../components/Modal.vue";
+import HomeBackground from "../components/HomeBackground.vue";
 
 export default {
   components: {
     Modal,
+    HomeBackground,
   },
   data() {
     return {
-      adv: [],
+      advice: null,
       isOpen: false,
-      title: "",
-      text: "",
     };
   },
   methods: {
@@ -18,18 +18,12 @@ export default {
       fetch(url)
         .then((res) => res.json())
         .then((data) => {
-          this.adv = data;
+          const { slip } = data;
+          this.advice = slip?.advice;
         });
     },
-    openModal(title, text) {
-      this.isOpen = true;
-      this.title = title;
-      this.text = text;
-    },
-    closeModal() {
-      this.isOpen = false;
-      this.title = "";
-      this.text = "";
+    toggleShowModal() {
+      this.isOpen = !this.isOpen;
     },
   },
   mounted() {
@@ -40,89 +34,18 @@ export default {
 
 <template>
   <main>
-    <div class="container">
-      <svg viewBox="0 0 960 300">
-        <symbol id="s-text">
-          <text text-anchor="middle" x="50%" y="80%">Mom Dináh</text>
-        </symbol>
-        <g class="g-ants">
-          <use xlink:href="#s-text" class="text-copy"></use>
-          <use xlink:href="#s-text" class="text-copy"></use>
-          <use xlink:href="#s-text" class="text-copy"></use>
-          <use xlink:href="#s-text" class="text-copy"></use>
-          <use xlink:href="#s-text" class="text-copy"></use>
-        </g>
-      </svg>
-    </div>
-    <button id="button2" @click="openModal">Click here!!</button>
-    <div class="modal" v-if="isOpen">
-      <div class="modal-content">
-        <table class="table">
-          <tr>
-            <h1>Today's Advice:</h1>
-          </tr>
-          <tr v-for="conselho in adv" :key="conselho.advice">
-            <td id="tip">{{ conselho.advice }}</td>
-          </tr>
-        </table>
-        <button
-          class="material-symbols-outlined"
-          id="button1"
-          @click="closeModal"
-        >
-          cancel
-        </button>
-        <Modal :isOpen="isModalOpen" @closeModal="closeModal" />
-      </div>
-    </div>
+    <HomeBackground />
+    <button id="button2" @click="toggleShowModal">Click here!!</button>
+    <Modal
+      :open="isOpen"
+      title="Today's Advice"
+      :text="advice"
+      @close="toggleShowModal"
+    />
   </main>
 </template>
 
 <style scoped>
-@import url('https://fonts.googleapis.com/css2?family=Amatic+SC:wght@700&display=swap');
-@import url(https://fonts.googleapis.com/css?family=Montserrat);
-svg {
-  display: block;
-  font: 10.5em "Montserrat";
-  width: 600px;
-  height: 300px;
-  margin: 0 auto;
-}
-
-.text-copy {
-  fill: none;
-  stroke-dasharray: 6% 29%;
-  stroke-width: 5px;
-  stroke-dashoffset: 0%;
-  animation: stroke-offset 5.5s infinite linear;
-}
-
-.text-copy:nth-child(1) {
-  stroke: plum;
-  animation-delay: -1;
-}
-
-.text-copy:nth-child(2) {
-  stroke: rgb(180, 116, 180);
-  animation-delay: -2s;
-}
-
-.text-copy:nth-child(4) {
-  stroke: plum;
-  animation-delay: -4s;
-}
-
-.text-copy:nth-child(5) {
-  stroke: plum;
-  animation-delay: -5s;
-}
-
-@keyframes stroke-offset {
-  100% {
-    stroke-dashoffset: -35%;
-  }
-}
-
 main {
   width: 100vw;
   height: 100vh;
@@ -134,25 +57,6 @@ main {
   z-index: 1%;
 }
 
-h1 {
-  color: rgb(88, 5, 88);
-}
-
-#tip {
-  font-family: 'Amatic SC', cursive;
-}
-
-.material-symbols-outlined {
-  font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 48;
-}
-#button1 {
-  background: transparent;
-  border: none;
-  color: rgb(88, 5, 88);
-  font-size: 3rem;
-  cursor: grab;
-}
-
 #button2 {
   background: transparent;
   border: none;
@@ -161,7 +65,7 @@ h1 {
   position: relative;
   margin: 17.5% 41.5%;
 
- font-size: 50px;
+  font-size: 50px;
   width: 20rem;
   cursor: grab;
 }
@@ -176,19 +80,5 @@ h1 {
   100% {
     transform: scale(0.9);
   }
-}
-
-.modal-content {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-.table {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
 }
 </style>
