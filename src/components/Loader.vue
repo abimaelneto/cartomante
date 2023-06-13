@@ -1,17 +1,17 @@
 <template>
-    <div class="loader">
- <div class="loader-dot"></div>
-  <div class="loader-dot"></div>
-  <div class="loader-dot"></div>    </div>
-  </template>
-  
-  <style>
+  <div class="loader">
+    <div class="loader-dot"></div>
+    <div class="loader-dot"></div>
+    <div class="loader-dot"></div>
+  </div>
+</template>
 
-  .loader{
-    display: flex;
-  }
-  
-  .l.loader {
+<style>
+.loader {
+  display: flex;
+}
+
+.l.loader {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -47,4 +47,4 @@
     transform: scale(1);
   }
 }
-  </style>
+</style>
